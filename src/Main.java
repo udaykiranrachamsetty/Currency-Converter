@@ -31,15 +31,15 @@ public class Main {
         System.out.println(arrayList);
         System.out.println("from currency:");
         String fromcurrency = input.nextLine().toUpperCase();
-        if(!checkcorrectcurrency(fromcurrency, arrayList)){
+        if(checkcorrectcurrency(fromcurrency, arrayList)){
             System.out.println("enter valid currency code , if needed refer to list:");
             fromcurrency = input.nextLine().toUpperCase();
         }
         System.out.println("Enter amount to convert:");
-        int amount = Integer.valueOf(input.next());
+        int amount = Integer.parseInt(input.next());
         System.out.println("to currency:");
         String tocurrency = input.next().toUpperCase();
-        if(!checkcorrectcurrency(tocurrency, arrayList)){
+        if(checkcorrectcurrency(tocurrency, arrayList)){
             System.out.println("enter valid currency code , if needed refer to list:");
             tocurrency = input.nextLine().toUpperCase();
         }
@@ -48,22 +48,18 @@ public class Main {
 
     }
     public static boolean checkcorrectcurrency(String currencycode, ArrayList<String> arr){
-        if(!arr.contains(currencycode)){
-            return false;
-        }
-        return true;
+        return !arr.contains(currencycode);
     }
     public static ArrayList<String> getData(JsonObject jsonobj){
         JsonObject conversionRates = jsonobj.get("conversion_rates").getAsJsonObject();
         Set<String> currencyCodes = conversionRates.keySet();
-        ArrayList<String> arrayList = new ArrayList<>(currencyCodes);
-        return arrayList;
+        return new ArrayList<>(currencyCodes);
     }
     public static Float calculator(JsonObject jsonobj ,String fromcurrency,int amount , String tocurrency){
         JsonObject conversionRates = jsonobj.get("conversion_rates").getAsJsonObject();
         Float fromcurrencybaseUSD = conversionRates.get(fromcurrency).getAsFloat();
         Float tocurrencybaseUSD = conversionRates.get(tocurrency).getAsFloat();
-        Float base = tocurrencybaseUSD/fromcurrencybaseUSD;
+        float base = tocurrencybaseUSD/fromcurrencybaseUSD;
         return base*amount;
     }
 }
