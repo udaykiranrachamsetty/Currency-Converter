@@ -30,14 +30,28 @@ public class Main {
         System.out.println("Currencies Available:");
         System.out.println(arrayList);
         System.out.println("from currency:");
-        String fromcurrency = input.nextLine();
+        String fromcurrency = input.nextLine().toUpperCase();
+        if(!checkcorrectcurrency(fromcurrency, arrayList)){
+            System.out.println("enter valid currency code , if needed refer to list:");
+            fromcurrency = input.nextLine().toUpperCase();
+        }
         System.out.println("Enter amount to convert:");
         int amount = Integer.valueOf(input.next());
         System.out.println("to currency:");
-        String tocurrency = input.next();
+        String tocurrency = input.next().toUpperCase();
+        if(!checkcorrectcurrency(tocurrency, arrayList)){
+            System.out.println("enter valid currency code , if needed refer to list:");
+            tocurrency = input.nextLine().toUpperCase();
+        }
         Float result = calculator(jsonobj,fromcurrency,amount,tocurrency);
         System.out.println("Result:"+ result);
 
+    }
+    public static boolean checkcorrectcurrency(String currencycode, ArrayList<String> arr){
+        if(!arr.contains(currencycode)){
+            return false;
+        }
+        return true;
     }
     public static ArrayList<String> getData(JsonObject jsonobj){
         JsonObject conversionRates = jsonobj.get("conversion_rates").getAsJsonObject();
